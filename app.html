@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI - Dashboard</title>
+    <style>
+        /* Core Theme */
+        :root {
+            --bg-color: #050505;
+            --sidebar-bg: #0a0a0a;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #6d28d9;
+            --accent-hover: #5b21b6;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        /* Layout Architecture */
+        .sidebar { width: 260px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 1.5rem 1rem; }
+        .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
+
+        /* Sidebar Elements */
+        .logo { font-size: 1.2rem; font-weight: 800; margin-bottom: 2rem; padding: 0 0.5rem; text-decoration: none; color: white; }
+        .new-chat-btn { background: var(--accent); color: white; border: none; padding: 0.8rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.3s; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .new-chat-btn:hover { background: var(--accent-hover); }
+        
+        .history-list { flex: 1; overflow-y: auto; list-style: none; }
+        .history-list li { padding: 0.8rem; margin-bottom: 0.5rem; border-radius: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.9rem; transition: background 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .history-list li:hover { background: var(--card-bg); color: var(--text-main); }
+        
+        /* Dashboard Header */
+        header { padding: 1rem 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(10px); z-index: 10; }
+        .model-select { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
+        .user-profile { width: 32px; height: 32px; background: linear-gradient(135deg, var(--accent), #3b82f6); border-radius: 50%; cursor: pointer; }
+        
+        /* Chat Area */
+        .chat-container { flex: 1; overflow-y: auto; padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; scroll-behavior: smooth; }
+        .message { max-width: 75%; padding: 1rem 1.5rem; border-radius: 12px; line-height: 1.6; font-size: 0.95rem; }
+        .message.user { align-self: flex-end; background: var(--accent); color: white; border-bottom-right-radius: 4px; }
+        .message.ai { align-self: flex-start; background: var(--card-bg); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+        
+        /* Input Field Area */
+        .input-wrapper { padding: 1.5rem 2rem; background: linear-gradient(transparent, var(--bg-color) 20%); border-top: 1px solid var(--border); }
+        .input-box { display: flex; gap: 1rem; max-width: 800px; margin: 0 auto; background: #121212; border: 1px solid var(--border); border-radius: 12px; padding: 0.5rem; padding-left: 1.5rem; align-items: center; transition: border-color 0.3s; }
+        .input-box:focus-within { border-color: var(--accent); }
+        .input-box input { flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 1rem; }
+        .input-box button { background: var(--accent); border: none; width: 40px; height: 40px; border-radius: 8px; color: white; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
+        .input-box button:hover { background: var(--accent-hover); transform: scale(1.05); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <a href="index.html" class="logo">NexusAI.</a>
+        <button class="new-chat-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            New Workflow
+        </button>
+        <ul class="history-list">
+            <li>Analyze Q3 revenue data</li>
+            <li>Write Python script for web scraping</li>
+            <li>Generate marketing copy for tech product</li>
+            <li>Optimize React components</li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header>
+            <div class="model-select">Model: Nexus-v2.0 (Turbo)</div>
+            <div class="user-profile" title="Account Settings"></div>
+        </header>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="message ai">
+                Hello! I'm NexusAI. I'm connected to your workspace and ready to automate your tasks. What are we building today?
+            </div>
+        </div>
+
+        <div class="input-wrapper">
+            <form class="input-box" id="chatForm">
+                <input type="text" id="userInput" placeholder="Ask NexusAI to analyze data, write code, or automate a task..." required autocomplete="off">
+                <button type="submit">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const form = document.getElementById('chatForm');
+        const input = document.getElementById('userInput');
+        const chatContainer = document.getElementById('chatContainer');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
+
+            // 1. Post User's Message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = text;
+            chatContainer.appendChild(userMsg);
+
+            // Clear the input box and scroll to the bottom
+            input.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // 2. Simulate AI Processing Delay & Response
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message ai';
+                aiMsg.textContent = "This is a frontend demo of the NexusAI dashboard. To generate real dynamic responses, you would need to connect my frontend via JavaScript to a backend LLM API like OpenAI, Anthropic, or Gemini!";
+                chatContainer.appendChild(aiMsg);
+                
+                // Scroll to the bottom again to show the AI response
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1200); // 1.2 second fake processing time
+        });
+    </script>
+</body>
+</html>
