@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI - Pricing</title>
+    <style>
+        /* Inherited Core Styles */
+        :root {
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #6d28d9;
+            --accent-glow: rgba(109, 40, 217, 0.5);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); }
+        
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; padding: 1.5rem 5%; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; }
+        
+        /* Pricing Section */
+        .pricing-header { text-align: center; padding: 5rem 20px 2rem; }
+        .pricing-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        .tier { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 3rem 2rem; text-align: center; transition: transform 0.3s ease; }
+        .tier:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .tier.popular { border-color: var(--accent); position: relative; box-shadow: 0 0 20px var(--accent-glow); }
+        .tier.popular::before { content: 'Most Popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        
+        .price { font-size: 3rem; font-weight: 800; margin: 1.5rem 0; }
+        .price span { font-size: 1rem; color: var(--text-muted); }
+        
+        .features { list-style: none; margin-bottom: 2rem; text-align: left; }
+        .features li { margin-bottom: 1rem; color: var(--text-muted); }
+        .features li::before { content: '✓'; color: var(--accent); margin-right: 10px; }
+        
+        .buy-btn { display: block; width: 100%; background: transparent; border: 1px solid var(--accent); color: white; padding: 1rem; border-radius: 50px; text-decoration: none; font-weight: bold; transition: all 0.3s ease; }
+        .tier.popular .buy-btn { background: var(--accent); }
+        .buy-btn:hover { background: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">NexusAI.</a>
+    </nav>
+
+    <div class="pricing-header">
+        <h1>Simple, transparent pricing.</h1>
+        <p style="color: var(--text-muted);">Start building for free, upgrade when you need to scale.</p>
+    </div>
+
+    <div class="pricing-grid">
+        <div class="tier">
+            <h2>Hobby</h2>
+            <div class="price">$0<span>/mo</span></div>
+            <ul class="features">
+                <li>1,000 API requests</li>
+                <li>Community Support</li>
+                <li>Standard Processing</li>
+            </ul>
+            <!-- Replace href with your Stripe Payment Link -->
+            <a href="signup.html" class="buy-btn">Start Free</a> 
+        </div>
+
+        <div class="tier popular">
+            <h2>Pro</h2>
+            <div class="price">$29<span>/mo</span></div>
+            <ul class="features">
+                <li>100,000 API requests</li>
+                <li>Priority Email Support</li>
+                <li>Advanced Analytics</li>
+            </ul>
+            <!-- Replace href with your Stripe Payment Link -->
+            <a href="#" class="buy-btn" onclick="alert('This will route to a Stripe Checkout Link!')">Upgrade to Pro</a>
+        </div>
+    </div>
+</body>
+</html>
